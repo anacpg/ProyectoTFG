@@ -17,12 +17,19 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.anacristinapg.proyectotfg.SettingActivity"
-            android:label="@string/title_activity_setting" >
-        </activity>
-        <activity
             android:name="com.example.anacristinapg.proyectotfg.LocalizationActivity"
             android:label="@string/title_activity_localization" >
+        </activity>
+
+        <service
+            android:name="com.example.anacristinapg.proyectotfg.ServiceMain"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <activity
+            android:name="com.example.anacristinapg.proyectotfg.SettingsActivity"
+            android:label="@string/title_activity_settings" >
         </activity>
     </application>
 
