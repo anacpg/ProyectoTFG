@@ -2,6 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.anacristinapg.proyectotfg" >
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -22,7 +27,7 @@
         </activity>
 
         <service
-            android:name="com.example.anacristinapg.proyectotfg.ServiceMain"
+            android:name=".ServiceMain"
             android:enabled="true"
             android:exported="true" >
         </service>
@@ -32,9 +37,15 @@
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name="com.example.anacristinapg.proyectotfg.Prueba"
+            android:name=".Prueba"
             android:label="@string/title_activity_prueba" >
         </activity>
+
+        <service
+            android:name=".ServiceWIFI"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

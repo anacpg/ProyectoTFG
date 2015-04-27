@@ -32,9 +32,9 @@ public class MainActivity extends Activity {
                             LocalizationActivity.class);
                     startActivity(i);
                 }else{
-                    Intent i = new Intent(MainActivity.this,
-                            SettingsActivity.class);
-                    startActivity(i); 
+                    Intent i = new Intent(MainActivity.this, LocalizationActivity.class);
+                    startActivity(i);
+
                 }
 
 

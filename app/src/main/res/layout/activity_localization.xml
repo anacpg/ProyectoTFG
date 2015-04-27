@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/lblLatitud"
+            android:id="@+id/txtLatitud"
             android:layout_below="@+id/textView3"
             android:layout_marginTop="20dp"
             android:layout_alignStart="@+id/textView3" />
@@ -76,14 +76,14 @@
             android:text="Longitud:"
             android:id="@+id/textView8"
             android:layout_marginTop="35dp"
-            android:layout_below="@+id/lblLatitud"
-            android:layout_alignStart="@+id/lblLatitud" />
+            android:layout_below="@+id/txtLatitud"
+            android:layout_alignStart="@+id/txtLatitud" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/lblLongitud"
+            android:id="@+id/txtLongitud"
             android:layout_centerVertical="true"
             android:layout_below="@+id/textView8"
             android:layout_alignStart="@+id/textView8"

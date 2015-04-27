@@ -24,7 +24,7 @@ public class Prueba extends Activity {
         Log.d("boolean ", Boolean.toString(manager.consultar()));
         manager.modificarLocalizacion(40, 50);
         Log.d("boolean ", Boolean.toString(manager.consultar()));
-
+        Log.d("estoy en Prueba telefono:",manager.get_phone());
         /*
         manager.insertar("Jaime","11111111111");
         manager.insertar2("Juan","222222222");
