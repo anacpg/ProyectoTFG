@@ -30,8 +30,16 @@
         android:layout_height="wrap_content"
         android:text="Comenzar"
         android:id="@+id/btn_comenzar"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="41dp"
         android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PARAR"
+        android:id="@+id/btn_parar"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -66,16 +66,7 @@ public class DBManager {
 
         if (c.moveToFirst()) {
             contiene = true;
-            //Recorremos el cursor hasta que no haya más registros
-            do {
-                //String codigo = c.getString(0);
-                //String nombre = c.getString(1);
-                Log.d("Dentro del do-while", "ID: " + c.getString(0) + " distancia " + c.getString(1)
-                        + " tiempo " + c.getString(2)+ " reposo " + c.getString(3)+
-                        " telefono " + c.getString(4) + " latitud " + c.getString(5)
-                        + " longitud " + c.getString(6));
 
-            } while(c.moveToNext());
         }
         return contiene;
     }

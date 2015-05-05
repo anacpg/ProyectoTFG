@@ -7,5 +7,6 @@
     <string name="title_activity_localization">LocalizationActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_prueba">prueba</string>
+    <string name="title_activity_my_service2">MyService2</string>
 
 </resources>

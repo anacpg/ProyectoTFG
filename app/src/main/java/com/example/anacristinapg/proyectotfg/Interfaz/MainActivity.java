@@ -10,7 +10,9 @@ import android.widget.Button;
 
 import com.example.anacristinapg.proyectotfg.BD.DBManager;
 import com.example.anacristinapg.proyectotfg.BD.User;
+import com.example.anacristinapg.proyectotfg.MyService2;
 import com.example.anacristinapg.proyectotfg.R;
+import com.example.anacristinapg.proyectotfg.ServiceMain;
 
 
 public class MainActivity extends Activity {
@@ -27,17 +29,24 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (manager.consultar()){
+                if (manager.consultar()) {
+                    startService(new Intent(MainActivity.this,
+                               ServiceMain.class));
                     Intent i = new Intent(MainActivity.this,
-                            LocalizationActivity.class);
+                            MyService2.class);
                     startActivity(i);
-                }else{
-                    Intent i = new Intent(MainActivity.this, LocalizationActivity.class);
+                } else {
+                    Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(i);
 
                 }
-
-
+            }
+        });
+        Button detener = (Button) findViewById(R.id.btn_parar);
+        detener.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                stopService(new Intent(MainActivity.this,
+                        ServiceMain.class));
             }
         });
     }

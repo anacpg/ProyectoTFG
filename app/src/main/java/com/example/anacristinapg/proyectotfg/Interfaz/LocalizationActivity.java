@@ -16,8 +16,8 @@ import android.widget.TextView;
 
 import com.example.anacristinapg.proyectotfg.BD.DBManager;
 import com.example.anacristinapg.proyectotfg.BD.User;
+import com.example.anacristinapg.proyectotfg.MyService2;
 import com.example.anacristinapg.proyectotfg.R;
-import com.example.anacristinapg.proyectotfg.ServiceMain;
 
 
 public class LocalizationActivity extends Activity {
@@ -54,8 +54,11 @@ public class LocalizationActivity extends Activity {
                 }else{
                     //TODO lanzar mensaje para introducir las coordenadas
                 }
-                startService(new Intent(LocalizationActivity.this,
-                        ServiceMain.class));
+                ///startService(new Intent(LocalizationActivity.this,
+                   //     ServiceWIFI.class));
+                Intent i = new Intent(LocalizationActivity.this,
+                        MyService2.class);
+                startActivity(i);
 
             }
         });

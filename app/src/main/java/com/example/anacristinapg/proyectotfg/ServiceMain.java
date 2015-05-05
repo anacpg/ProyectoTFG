@@ -73,6 +73,7 @@ public class ServiceMain extends Service {
 
 
     private void configGPS() {
+        Toast.makeText(getApplicationContext(),"Estoy en configGPS", Toast.LENGTH_LONG).show();
 
         LocationManager mLocationManager;
         LocationListener mLocationListener;
@@ -98,6 +99,7 @@ public class ServiceMain extends Service {
             Double lon = Double.parseDouble(String.valueOf(location.getLongitude()));
 
             controlarDistancia(lat,lon);
+            controlarTiempo();
 
 
         }

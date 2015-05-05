@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application
         android:allowBackup="true"
@@ -36,16 +38,17 @@
             android:name=".Interfaz.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
-        <activity
-            android:name=".Prueba"
-            android:label="@string/title_activity_prueba" >
-        </activity>
 
         <service
             android:name=".ServiceWIFI"
             android:enabled="true"
             android:exported="true" >
         </service>
+
+        <activity
+            android:name=".MyService2"
+            android:label="@string/title_activity_my_service2" >
+        </activity>
     </application>
 
 </manifest>
