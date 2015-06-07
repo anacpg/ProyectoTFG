@@ -2,6 +2,7 @@ package com.example.anacristinapg.proyectotfg.Interfaz;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,7 +11,6 @@ import android.widget.Button;
 
 import com.example.anacristinapg.proyectotfg.BD.DBManager;
 import com.example.anacristinapg.proyectotfg.BD.User;
-import com.example.anacristinapg.proyectotfg.MyService2;
 import com.example.anacristinapg.proyectotfg.R;
 import com.example.anacristinapg.proyectotfg.ServiceMain;
 
@@ -21,27 +21,46 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         Button btn_comenzar = (Button) findViewById(R.id.btn_comenzar); //Definimos el boton
 
+        String font_path="font/gotham-light.ttf";
+        Typeface TF = Typeface.createFromAsset(getAssets(),font_path);
+        btn_comenzar.setTypeface(TF);
+
         final DBManager manager = User.getInstance().getManager(this);
+
 
         btn_comenzar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (manager.consultar()) {
+                    Intent i = new Intent(MainActivity.this,
+                            StopActivity.class);
+                    startActivity(i);
+
                     startService(new Intent(MainActivity.this,
                                ServiceMain.class));
-                    Intent i = new Intent(MainActivity.this,
-                            MyService2.class);
-                    startActivity(i);
+
+                    //Intent i = new Intent(MainActivity.this,
+                      //      MyService.class);
+                    //startActivity(i);
                 } else {
+
                     Intent i = new Intent(MainActivity.this, SettingsActivity.class);
                     startActivity(i);
 
                 }
             }
         });
+
+
+
+
+        /*
         Button detener = (Button) findViewById(R.id.btn_parar);
         detener.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -49,6 +68,7 @@ public class MainActivity extends Activity {
                         ServiceMain.class));
             }
         });
+        */
     }
 
     @Override

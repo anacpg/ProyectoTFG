@@ -1,8 +1,12 @@
 package com.example.anacristinapg.proyectotfg.Interfaz;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +20,7 @@ import com.example.anacristinapg.proyectotfg.R;
 
 public class SettingsActivity extends Activity {
 
-
+    String distancia, reposo, tiempo, telefono;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,23 +35,61 @@ public class SettingsActivity extends Activity {
         //manager.insertarDatos(600, 50, 30, 666666666);
 
 
+        String font_path="font/gotham-light.ttf";
+        Typeface TF = Typeface.createFromAsset(getAssets(),font_path);
+        btn_continuar.setTypeface(TF);
         btn_continuar.setOnClickListener(new View.OnClickListener() {
+            boolean datosVacios = false;
+            @Override
+            public void onClick(View v) {
+                lbl_distancia.getText().toString().isEmpty();
+
+
+                distancia = lbl_distancia.getText().toString();
+                tiempo = lbl_tiempo.getText().toString();
+                reposo = lbl_reposo.getText().toString();
+                telefono = lbl_telefono.getText().toString();
+
+                Log.i("SettingsActivity","Distancia: " + distancia);
+                if (distancia.equals("") || tiempo.equals("") || reposo.equals("") || telefono.equals("")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(SettingsActivity.this);
+                    builder.setMessage("Algún dato sin introducir. Por favor, vuelva a introducir los datos.")
+                            .setTitle("Atención!!")
+                            .setCancelable(false)
+                            .setNeutralButton("Aceptar",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            dialog.cancel();
+                                        }
+                                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+
+                if (!datosVacios){
+                    manager.insertarDatos(Double.parseDouble(distancia), Integer.parseInt(tiempo),
+                            Integer.parseInt(reposo) , Integer.parseInt(telefono));
+
+                    Intent i = new Intent(SettingsActivity.this, LocalizationActivity.class);
+                    startActivity(i);
+                }
+            }
+
+        });
+
+
+
+        Button btn_ayuda = (Button) findViewById(R.id.btn_ayuda);
+        btn_ayuda.setTypeface(TF);
+        btn_ayuda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                double distancia = Double.parseDouble(lbl_distancia.getText().toString());
-                int tiempo = Integer.parseInt(lbl_tiempo.getText().toString());
-                int reposo = Integer.parseInt(lbl_reposo.getText().toString());
-                int telefono = Integer.parseInt(lbl_telefono.getText().toString());
-
-                manager.insertarDatos(distancia, tiempo, reposo, telefono);
-
-                Intent i = new Intent(SettingsActivity.this, LocalizationActivity.class);
+                Intent i = new Intent(SettingsActivity.this, AyudaActivity.class);
                 startActivity(i);
             }
         });
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -1,7 +1,9 @@
 package com.example.anacristinapg.proyectotfg.Interfaz;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,30 +18,48 @@ import android.widget.TextView;
 
 import com.example.anacristinapg.proyectotfg.BD.DBManager;
 import com.example.anacristinapg.proyectotfg.BD.User;
-import com.example.anacristinapg.proyectotfg.MyService2;
 import com.example.anacristinapg.proyectotfg.R;
+import com.example.anacristinapg.proyectotfg.ServiceMain;
 
 
 public class LocalizationActivity extends Activity {
-
     TextView latitud, longitud ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_localization);
 
+
         latitud = (TextView) findViewById(R.id.txtLatitud);
         longitud = (TextView) findViewById(R.id.txtLongitud);
 
+        final DBManager manager = User.getInstance().getManager(LocalizationActivity.this);
+
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("Importante");
+        dialogo1.setMessage("¿Es esta la localización de la casa destino?");
+        dialogo1.setCancelable(false);
+        dialogo1.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                configGPS();
+            }
+        });
+        dialogo1.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogo1, int id) {
+                cancelar();
+
+            }
+
+
+        });
+        dialogo1.show();
+
+
+
+
+
         Button btn_guardar = (Button) findViewById(R.id.btnGuardar); //Definimos el boton
 
-
-        final DBManager manager = User.getInstance().getManager(this);
-
-        manager.consultar();
-        manager.get_phone();
-
-        configGPS();
 
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -51,20 +71,48 @@ public class LocalizationActivity extends Activity {
                     manager.modificarLocalizacion(lat,lon);
                     Log.i("LocalizationActivity", "Coordenadas: " + manager.get_latitud() +
                             ", "+ manager.get_longitud());
+
+                    startService(new Intent(LocalizationActivity.this,
+                            ServiceMain.class));
+
+                    Intent i = new Intent(LocalizationActivity.this, StopActivity.class);
+                    startActivity(i);
+
                 }else{
-                    //TODO lanzar mensaje para introducir las coordenadas
+
+
+
                 }
-                ///startService(new Intent(LocalizationActivity.this,
-                   //     ServiceWIFI.class));
-                Intent i = new Intent(LocalizationActivity.this,
-                        MyService2.class);
-                startActivity(i);
+
+
+                //startService(new Intent(LocalizationActivity.this,
+                  //      ServiceWIFI.class));
+                //Intent i = new Intent(LocalizationActivity.this,
+                 //       MyService2.class);
+                //startActivity(i);
 
             }
         });
 
     }
+    public void cancelar(){
+            AlertDialog.Builder builder = new AlertDialog.Builder(LocalizationActivity.this);
+            builder.setMessage("Vuelva a intentarlo cuando se encuentre en el hogar de partida.")
+                    .setTitle("Aviso")
+                    .setCancelable(false)
+                    .setNeutralButton("Aceptar",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    Intent i = new Intent(LocalizationActivity.this, MainActivity.class);
+                                    startActivity(i);
+                                }
+                            });
+            AlertDialog alert = builder.create();
+            alert.show();
 
+
+        //finish();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -90,6 +138,7 @@ public class LocalizationActivity extends Activity {
 
 
     private void configGPS() {
+
 
         LocationManager mLocationManager;
         LocationListener mLocationListener;

@@ -12,11 +12,12 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
+        android:label="CoMET"
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Interfaz.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +26,8 @@
         </activity>
         <activity
             android:name=".Interfaz.LocalizationActivity"
-            android:label="@string/title_activity_localization" >
+            android:label="@string/title_activity_localization"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
         <service
@@ -36,18 +38,21 @@
 
         <activity
             android:name=".Interfaz.SettingsActivity"
-            android:label="@string/title_activity_settings" >
+            android:label="@string/title_activity_settings"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
 
-        <service
-            android:name=".ServiceWIFI"
-            android:enabled="true"
-            android:exported="true" >
-        </service>
+
 
         <activity
-            android:name=".MyService2"
-            android:label="@string/title_activity_my_service2" >
+            android:name=".Interfaz.AyudaActivity"
+            android:label="@string/title_activity_ayuda"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity
+            android:name=".Interfaz.StopActivity"
+            android:label="@string/title_activity_stop"
+            android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
     </application>
 

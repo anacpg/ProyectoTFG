@@ -16,15 +16,18 @@ import com.example.anacristinapg.proyectotfg.BD.DBManager;
 import com.example.anacristinapg.proyectotfg.BD.User;
 
 public class ServiceMain extends Service {
-
+    LocationManager mLocationManager;
+    LocationListener mLocationListener;
     private double lat_ini, lon_ini, d_max;
     private int r_max, t_max;
     private String phone;
-    private double longitud, latitud,distancia;
+    private double longitud, latitud;
     private boolean flag = true;
     private long time_ini;
 
+
     public ServiceMain() {
+
     }
 
     @Override
@@ -38,29 +41,26 @@ public class ServiceMain extends Service {
         phone = manager.get_phone();
         latitud = manager.get_latitud();
         longitud = manager.get_longitud();
-        distancia = manager.get_distancia();
+        d_max = manager.get_distancia();
         t_max = manager.get_tiempo();
         r_max = manager.get_reposo();
 
         Log.i("ServiceMain","tiempo: "+t_max);
-        // obtener valores: phone,lat, lon, distancia, reposo, tiempo
-
-        //configGPS();
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        Log.d("Servicio","Estoy en Servicio y funciona genial");
+        flag = true;
         time_ini = System.currentTimeMillis()/1000;
+        Log.i("ServiceMain","onStartCommand; time_ini "+time_ini );
         configGPS();
-        return super.onStartCommand(intent, flags, startId);
 
+        return START_STICKY;
     }
 
     @Override
     public void onDestroy() {
+        mLocationManager.removeUpdates(mLocationListener);
         super.onDestroy();
     }
 
@@ -70,19 +70,14 @@ public class ServiceMain extends Service {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-
-
     private void configGPS() {
-        Toast.makeText(getApplicationContext(),"Estoy en configGPS", Toast.LENGTH_LONG).show();
-
-        LocationManager mLocationManager;
-        LocationListener mLocationListener;
+        //Toast.makeText(getApplicationContext(),"Estoy en configGPS", Toast.LENGTH_LONG).show();
 
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         mLocationListener = new MyLocationListener();
 
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 6000*20, 0, mLocationListener);
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, mLocationListener);
     }
 
     private class MyLocationListener implements LocationListener{
@@ -90,24 +85,22 @@ public class ServiceMain extends Service {
         @Override
         public void onLocationChanged(Location location) {
 
-            //Log.d("MainActivity", "i =  " + (i++));
-            Log.i("ServiceMain", "Estoy dentro de onLocationChanged\n");
-            Log.i("ServiceMain", "Latitud: "+ String.valueOf(location.getLatitude()));
-
-
             Double lat = Double.parseDouble(String.valueOf(location.getLatitude()));
             Double lon = Double.parseDouble(String.valueOf(location.getLongitude()));
 
             controlarDistancia(lat,lon);
-            controlarTiempo();
-
+            //controlarTiempo();
 
         }
+
         private void sendMess(String msg){
+
+            Log.d("ServiceMain","Enviando mensaje");
             try {
                 SmsManager smsManager = SmsManager.getDefault();
                 smsManager.sendTextMessage(phone, null, msg, null, null);
                 Toast.makeText(getApplicationContext(), "SMS enviado", Toast.LENGTH_LONG).show();
+
             }catch (Exception e){
                 Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_LONG).show();
                 e.printStackTrace();
@@ -126,8 +119,8 @@ public class ServiceMain extends Service {
                     * Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2));
             double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
             double dist = earthRadius * c;
-
             return dist;
+
         }
 
         @Override
@@ -147,32 +140,33 @@ public class ServiceMain extends Service {
 
         public void controlarDistancia(double lat, double lon){
 
-            if (flag){
-                double d = distFrom(latitud,longitud,lat,lon);
-                if (d >= distancia ){
-                    flag = false;
-                    Log.i("ServiceMain", "Distancia"+ d +" mayor que la máxima: "+distancia);
-                    Toast toast1 =
-                            Toast.makeText(getApplicationContext(),
-                                    "Distancia"+ d +" mayor que la máxima: "+distancia, Toast.LENGTH_SHORT);
-                    toast1.show();
-                    //sendMess("Distancia recorrida: "+ d + "m." + "\nLatitud: "+ String.valueOf(location.getLatitude()) +"\nLongitud: "+ String.valueOf(location.getLongitude()) );
-                }
+            double d = distFrom(latitud,longitud,lat,lon);
+            Log.d("controlar distancia","distancia d : "+d);
 
+            if (d >= d_max ){
+
+                Log.d("controlar distancia","distancia d"+d);
+
+                flag = false;
+                Log.i("ServiceMain", "Distancia"+ d +" mayor que la máxima: "+d_max);
+                Toast toast1 =
+                        Toast.makeText(getApplicationContext(),
+                                "Distancia"+ d +" mayor que la máxima: "+d_max, Toast.LENGTH_SHORT);
+                toast1.show();
             }
         }
 
         public void controlarTiempo(){
-
-            long t = (System.currentTimeMillis()/1000) - time_ini;
+            long t_actual = System.currentTimeMillis()/1000;
+            long t = t_actual - time_ini;
+            Log.i("ServiceMAIN","t_actual = " + t_actual + " t " + t);
 
             if (t/60 >= t_max){
-                Log.d("Time","Time " + t_max +" t " + t/60 );
-                Toast.makeText(getApplicationContext(),"Time " + t_max +" t " + t, Toast.LENGTH_LONG).show();
+                Log.d("Enviando mensajeeeee","Time " + t_max +" t " + t/60 );
+                Toast.makeText(getApplicationContext(),"Mensaje enviado.", Toast.LENGTH_LONG).show();
                 //sendMess("Tiempo desde que salió de casa: min."  );
             }
         }
-
     }
 
 

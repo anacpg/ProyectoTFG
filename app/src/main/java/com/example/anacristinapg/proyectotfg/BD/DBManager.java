@@ -65,8 +65,10 @@ public class DBManager {
         Boolean contiene = false;
 
         if (c.moveToFirst()) {
-            contiene = true;
-
+            //Log.i("DbManager", "c2 "+ c.getString(2) + " c5 "+ c.getString(5));
+            if (!c.getString(2).equals("0") && !c.getString(5).equals("0")){
+                contiene = true;
+            }
         }
         return contiene;
     }
@@ -93,11 +95,11 @@ public class DBManager {
 
         if (c.moveToFirst()) {
             //Recorremos el cursor hasta que no haya más registros
-            do {
+
                 lat = c.getDouble(5);
                 Log.d("Dentro del do-while", "ID: " + " latitud " + c.getString(5));
 
-            } while(c.moveToNext());
+
         }
         return lat;
     }
@@ -107,12 +109,11 @@ public class DBManager {
         double lon = 0.0;
 
         if (c.moveToFirst()) {
-            //Recorremos el cursor hasta que no haya más registros
-            do {
+
                 lon = c.getDouble(6);
                 Log.d("Dentro del do-while", "ID: " + " longitud " + c.getString(6));
 
-            } while(c.moveToNext());
+
         }
         return lon;
     }
